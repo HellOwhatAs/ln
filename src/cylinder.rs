@@ -71,20 +71,21 @@ impl Shape for Cylinder {
     fn paths(&self) -> Paths {
         let mut result = Vec::new();
         // Vertical lines
-        let mut a = 0;
-        while a < 360 {
+        for a in (0..360).step_by(10) {
             let x = self.radius * radians(a as f64).cos();
             let y = self.radius * radians(a as f64).sin();
             result.push(vec![
                 Vector::new(x, y, self.z0),
                 Vector::new(x, y, self.z1),
             ]);
-            a += 10;
         }
         // Circular rings along the height
-        let z_step = 0.25;
-        let mut z = self.z0;
-        while z <= self.z1 {
+        let z_min = self.z0.min(self.z1);
+        let z_max = self.z0.max(self.z1);
+        let height = z_max - z_min;
+        let n_rings = ((height / 0.25).ceil() as usize).max(2);
+        for i in 0..=n_rings {
+            let z = z_min + (i as f64 / n_rings as f64) * height;
             let mut circle = Vec::new();
             for a in 0..=360 {
                 let x = self.radius * radians(a as f64).cos();
@@ -92,7 +93,6 @@ impl Shape for Cylinder {
                 circle.push(Vector::new(x, y, z));
             }
             result.push(circle);
-            z += z_step;
         }
         Paths::from_vec(result)
     }
