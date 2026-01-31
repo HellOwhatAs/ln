@@ -6,8 +6,8 @@ description = "The 3D Line Art Engine - A vector-based 3D renderer written in Ru
 license = "MIT"
 
 [dependencies]
-rand = "0.8"
 image = "0.25"
+rand = { version = "0.8", default-features = false, features = ["small_rng"] }
 
 [[example]]
 name = "example0"
