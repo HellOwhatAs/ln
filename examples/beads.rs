@@ -1,7 +1,7 @@
 use ln::{OutlineSphere, Scene, Vector};
+use rand::rngs::SmallRng;
 use rand::Rng;
 use rand::SeedableRng;
-use rand::rngs::SmallRng;
 
 fn normalize(values: &[f64], a: f64, b: f64) -> Vec<f64> {
     let lo = values.iter().cloned().fold(f64::INFINITY, f64::min);
@@ -34,34 +34,34 @@ fn low_pass_noise(rng: &mut SmallRng, n: usize, alpha: f64, iterations: usize) -
 }
 
 fn main() {
-    let mut rng = SmallRng::seed_from_u64(1211);
+    let mut rng = SmallRng::seed_from_u64(1212);
     let eye = Vector::new(8.0, 8.0, 8.0);
     let center = Vector::new(0.0, 0.0, 0.0);
     let up = Vector::new(0.0, 0.0, 1.0);
-    
+
     let mut scene = Scene::new();
-    
+
     for _ in 0..50 {
         let n = 200;
         let xs = low_pass_noise(&mut rng, n, 0.3, 4);
         let ys = low_pass_noise(&mut rng, n, 0.3, 4);
         let zs = low_pass_noise(&mut rng, n, 0.3, 4);
         let ss = low_pass_noise(&mut rng, n, 0.3, 4);
-        
+
         let mut position = Vector::new(0.0, 0.0, 0.0);
         for i in 0..n {
-            let sphere = OutlineSphere::new(eye, up, position, 0.1);
+            let sphere = OutlineSphere::new(eye, up, position, 0.05);
             scene.add(sphere);
             let s = (ss[i] + 1.0) / 2.0 * 0.1 + 0.01;
             let v = Vector::new(xs[i], ys[i], zs[i]).normalize().mul_scalar(s);
             position = position.add(v);
         }
     }
-    
+
     let width = 380.0 * 5.0;
     let height = 315.0 * 5.0;
     let fovy = 50.0;
-    
+
     let paths = scene.render(eye, center, up, width, height, fovy, 0.1, 100.0, 0.01);
-    paths.write_to_png("out.png", width, height);
+    paths.write_to_svg("out.svg", width, height).unwrap();
 }

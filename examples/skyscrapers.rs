@@ -4,7 +4,7 @@ use rand::{rngs::SmallRng, Rng, SeedableRng};
 fn main() {
     let mut rng = SmallRng::seed_from_u64(42);
     let mut scene = Scene::new();
-    let n = 15;
+    let n = 100;
 
     for x in -n..=n {
         for y in -n..=n {
@@ -26,12 +26,12 @@ fn main() {
         }
     }
 
-    let eye = Vector::new(1.75, 1.25, 6.0);
-    let center = Vector::new(0.0, 0.0, 0.0);
+    let eye = Vector::new(13.75, 6.25, 16.0);
+    let center = Vector::new(4.0, 4.0, 0.0);
     let up = Vector::new(0.0, 0.0, 1.0);
     let width = 1024.0;
     let height = 1024.0;
 
     let paths = scene.render(eye, center, up, width, height, 100.0, 0.1, 100.0, 0.01);
-    paths.write_to_png("out.png", width, height);
+    paths.write_to_svg("out.svg", width, height).unwrap();
 }
