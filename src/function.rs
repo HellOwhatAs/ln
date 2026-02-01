@@ -69,7 +69,7 @@ where
         let sign = self.contains(ray.position(step), 0.0);
         
         let mut t = step;
-        while t < 10.0 {
+        while t < 50.0 {
             let v = ray.position(t);
             if self.contains(v, 0.0) != sign && self.bx.contains(v) {
                 return Hit::new(t);
