@@ -122,7 +122,9 @@ impl Scene {
     /// Returns a [`Hit`] describing the intersection, or [`Hit::no_hit()`]
     /// if the ray doesn't hit any shape.
     pub fn intersect(&self, r: Ray) -> Hit {
-        self.tree.as_ref().map_or(Hit::no_hit(), |tree| tree.intersect(r))
+        self.tree
+            .as_ref()
+            .map_or(Hit::no_hit(), |tree| tree.intersect(r))
     }
 
     /// Tests if a point is visible from the camera position.
@@ -214,26 +216,29 @@ impl Scene {
     ) -> Paths {
         self.compile();
         let mut paths = self.paths();
-        
+
         if step > 0.0 {
             paths = paths.chop(step);
         }
-        
+
         let filter = ClipFilter {
             matrix,
             eye,
             scene: self,
         };
         paths = paths.filter(&filter);
-        
+
         if step > 0.0 {
             paths = paths.simplify(1e-6);
         }
-        
-        let matrix = Matrix::translate(Vector::new(1.0, 1.0, 0.0))
-            .scaled(Vector::new(width / 2.0, height / 2.0, 0.0));
+
+        let matrix = Matrix::translate(Vector::new(1.0, 1.0, 0.0)).scaled(Vector::new(
+            width / 2.0,
+            height / 2.0,
+            0.0,
+        ));
         paths = paths.transform(&matrix);
-        
+
         paths
     }
 }

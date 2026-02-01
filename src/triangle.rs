@@ -17,7 +17,9 @@ pub struct Triangle {
 impl Triangle {
     pub fn new(v1: Vector, v2: Vector, v3: Vector) -> Self {
         let mut t = Triangle {
-            v1, v2, v3,
+            v1,
+            v2,
+            v3,
             bx: Box::default(),
         };
         t.update_bounding_box();
@@ -51,36 +53,36 @@ impl Shape for Triangle {
         let py = r.direction.z * e2x - r.direction.x * e2z;
         let pz = r.direction.x * e2y - r.direction.y * e2x;
         let det = e1x * px + e1y * py + e1z * pz;
-        
+
         if det > -EPS && det < EPS {
             return Hit::no_hit();
         }
-        
+
         let inv = 1.0 / det;
         let tx = r.origin.x - self.v1.x;
         let ty = r.origin.y - self.v1.y;
         let tz = r.origin.z - self.v1.z;
         let u = (tx * px + ty * py + tz * pz) * inv;
-        
+
         if u < 0.0 || u > 1.0 {
             return Hit::no_hit();
         }
-        
+
         let qx = ty * e1z - tz * e1y;
         let qy = tz * e1x - tx * e1z;
         let qz = tx * e1y - ty * e1x;
         let v = (r.direction.x * qx + r.direction.y * qy + r.direction.z * qz) * inv;
-        
+
         if v < 0.0 || u + v > 1.0 {
             return Hit::no_hit();
         }
-        
+
         let d = (e2x * qx + e2y * qy + e2z * qz) * inv;
-        
+
         if d < EPS {
             return Hit::no_hit();
         }
-        
+
         Hit::new(d)
     }
 

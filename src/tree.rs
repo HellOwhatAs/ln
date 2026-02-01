@@ -63,17 +63,20 @@ impl Node {
             Axis::None => return self.intersect_shapes(r),
             Axis::X => {
                 let tsplit = (self.point - r.origin.x) / r.direction.x;
-                let left_first = r.origin.x < self.point || (r.origin.x == self.point && r.direction.x <= 0.0);
+                let left_first =
+                    r.origin.x < self.point || (r.origin.x == self.point && r.direction.x <= 0.0);
                 (tsplit, left_first)
             }
             Axis::Y => {
                 let tsplit = (self.point - r.origin.y) / r.direction.y;
-                let left_first = r.origin.y < self.point || (r.origin.y == self.point && r.direction.y <= 0.0);
+                let left_first =
+                    r.origin.y < self.point || (r.origin.y == self.point && r.direction.y <= 0.0);
                 (tsplit, left_first)
             }
             Axis::Z => {
                 let tsplit = (self.point - r.origin.z) / r.direction.z;
-                let left_first = r.origin.z < self.point || (r.origin.z == self.point && r.direction.z <= 0.0);
+                let left_first =
+                    r.origin.z < self.point || (r.origin.z == self.point && r.direction.z <= 0.0);
                 (tsplit, left_first)
             }
         };
@@ -82,13 +85,21 @@ impl Node {
         // This invariant is maintained by the split() method
         let (first, second) = if left_first {
             (
-                self.left.as_ref().expect("left child must exist when axis is set"),
-                self.right.as_ref().expect("right child must exist when axis is set")
+                self.left
+                    .as_ref()
+                    .expect("left child must exist when axis is set"),
+                self.right
+                    .as_ref()
+                    .expect("right child must exist when axis is set"),
             )
         } else {
             (
-                self.right.as_ref().expect("right child must exist when axis is set"),
-                self.left.as_ref().expect("left child must exist when axis is set")
+                self.right
+                    .as_ref()
+                    .expect("right child must exist when axis is set"),
+                self.left
+                    .as_ref()
+                    .expect("left child must exist when axis is set"),
             )
         };
 
@@ -102,7 +113,11 @@ impl Node {
                 h1
             } else {
                 let h2 = second.intersect(r, tsplit, tmax.min(h1.t));
-                if h1.t <= h2.t { h1 } else { h2 }
+                if h1.t <= h2.t {
+                    h1
+                } else {
+                    h2
+                }
             }
         }
     }
@@ -124,20 +139,35 @@ impl Node {
         for shape in &self.shapes {
             let bx = shape.bounding_box();
             let (l, r) = bx.partition(axis, point);
-            if l { left += 1; }
-            if r { right += 1; }
+            if l {
+                left += 1;
+            }
+            if r {
+                right += 1;
+            }
         }
         left.max(right)
     }
 
-    fn partition(&self, axis: Axis, point: f64) -> (Vec<Arc<dyn Shape + Send + Sync>>, Vec<Arc<dyn Shape + Send + Sync>>) {
+    fn partition(
+        &self,
+        axis: Axis,
+        point: f64,
+    ) -> (
+        Vec<Arc<dyn Shape + Send + Sync>>,
+        Vec<Arc<dyn Shape + Send + Sync>>,
+    ) {
         let mut left = Vec::new();
         let mut right = Vec::new();
         for shape in &self.shapes {
             let bx = shape.bounding_box();
             let (l, r) = bx.partition(axis, point);
-            if l { left.push(Arc::clone(shape)); }
-            if r { right.push(Arc::clone(shape)); }
+            if l {
+                left.push(Arc::clone(shape));
+            }
+            if r {
+                right.push(Arc::clone(shape));
+            }
         }
         (left, right)
     }

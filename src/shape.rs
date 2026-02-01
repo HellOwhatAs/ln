@@ -162,7 +162,11 @@ impl TransformedShape {
     /// in intersection and containment tests.
     pub fn new(shape: std::sync::Arc<dyn Shape + Send + Sync>, matrix: Matrix) -> Self {
         let inverse = matrix.inverse();
-        TransformedShape { shape, matrix, inverse }
+        TransformedShape {
+            shape,
+            matrix,
+            inverse,
+        }
     }
 }
 

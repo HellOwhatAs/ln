@@ -78,22 +78,22 @@ impl Shape for Cylinder {
         let b = 2.0 * o.x * d.x + 2.0 * o.y * d.y;
         let c = o.x * o.x + o.y * o.y - r * r;
         let q = b * b - 4.0 * a * c;
-        
+
         if q < 0.0 {
             return Hit::no_hit();
         }
-        
+
         let s = q.sqrt();
         let mut t0 = (-b + s) / (2.0 * a);
         let mut t1 = (-b - s) / (2.0 * a);
-        
+
         if t0 > t1 {
             std::mem::swap(&mut t0, &mut t1);
         }
-        
+
         let z0 = o.z + t0 * d.z;
         let z1 = o.z + t1 * d.z;
-        
+
         if t0 > 1e-6 && self.z0 < z0 && z0 < self.z1 {
             return Hit::new(t0);
         }
@@ -109,10 +109,7 @@ impl Shape for Cylinder {
         while a < 360 {
             let x = self.radius * radians(a as f64).cos();
             let y = self.radius * radians(a as f64).sin();
-            result.push(vec![
-                Vector::new(x, y, self.z0),
-                Vector::new(x, y, self.z1),
-            ]);
+            result.push(vec![Vector::new(x, y, self.z0), Vector::new(x, y, self.z1)]);
             a += 10;
         }
         Paths::from_vec(result)
@@ -169,7 +166,7 @@ impl Shape for OutlineCylinder {
         let c0 = self.eye.add(w.mul_scalar(d));
         let a0 = c0.add(u.mul_scalar(self.cylinder.radius * 1.01));
         let b0 = c0.add(u.mul_scalar(-self.cylinder.radius * 1.01));
-        
+
         let center = Vector::new(0.0, 0.0, self.cylinder.z1);
         let hyp = center.sub(self.eye).length();
         let opp = self.cylinder.radius;
@@ -181,7 +178,7 @@ impl Shape for OutlineCylinder {
         let c1 = self.eye.add(w.mul_scalar(d));
         let a1 = c1.add(u.mul_scalar(self.cylinder.radius * 1.01));
         let b1 = c1.add(u.mul_scalar(-self.cylinder.radius * 1.01));
-        
+
         let mut p0 = Vec::new();
         let mut p1 = Vec::new();
         for a in 0..360 {
@@ -190,12 +187,18 @@ impl Shape for OutlineCylinder {
             p0.push(Vector::new(x, y, self.cylinder.z0));
             p1.push(Vector::new(x, y, self.cylinder.z1));
         }
-        
+
         Paths::from_vec(vec![
             p0,
             p1,
-            vec![Vector::new(a0.x, a0.y, self.cylinder.z0), Vector::new(a1.x, a1.y, self.cylinder.z1)],
-            vec![Vector::new(b0.x, b0.y, self.cylinder.z0), Vector::new(b1.x, b1.y, self.cylinder.z1)],
+            vec![
+                Vector::new(a0.x, a0.y, self.cylinder.z0),
+                Vector::new(a1.x, a1.y, self.cylinder.z1),
+            ],
+            vec![
+                Vector::new(b0.x, b0.y, self.cylinder.z0),
+                Vector::new(b1.x, b1.y, self.cylinder.z1),
+            ],
         ])
     }
 }

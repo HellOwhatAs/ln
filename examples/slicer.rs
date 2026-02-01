@@ -1,4 +1,4 @@
-use ln::{load_obj, Matrix, Plane, Vector, Box as BBox};
+use ln::{load_obj, Box as BBox, Matrix, Plane, Vector};
 
 const SLICES: usize = 32;
 const SIZE: f64 = 1024.0;
@@ -9,7 +9,7 @@ fn main() {
         BBox::new(Vector::new(-1.0, -1.0, -1.0), Vector::new(1.0, 1.0, 1.0)),
         Vector::new(0.5, 0.5, 0.5),
     );
-    
+
     for i in 0..SLICES {
         println!("slice{:04}", i);
         let p = (i as f64 / (SLICES - 1) as f64) * 2.0 - 1.0;

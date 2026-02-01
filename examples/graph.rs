@@ -1,4 +1,4 @@
-use ln::{new_transformed_outline_cylinder, OutlineSphere, radians, Scene, Vector};
+use ln::{new_transformed_outline_cylinder, radians, OutlineSphere, Scene, Vector};
 use std::sync::Arc;
 
 fn render(frame: i32) {

@@ -86,7 +86,7 @@ impl Shape for Cube {
         let (n, f) = (n.min(f), n.max(f));
         let t0 = n.x.max(n.y).max(n.z);
         let t1 = f.x.min(f.y).min(f.z);
-        
+
         if t0 < 1e-3 && t1 > 1e-3 {
             return Hit::new(t1);
         }
@@ -99,7 +99,7 @@ impl Shape for Cube {
     fn paths(&self) -> Paths {
         let (x1, y1, z1) = (self.min.x, self.min.y, self.min.z);
         let (x2, y2, z2) = (self.max.x, self.max.y, self.max.z);
-        
+
         Paths::from_vec(vec![
             vec![Vector::new(x1, y1, z1), Vector::new(x1, y1, z2)],
             vec![Vector::new(x1, y1, z1), Vector::new(x1, y2, z1)],

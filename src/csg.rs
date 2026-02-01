@@ -67,7 +67,10 @@ impl BooleanShape {
 /// Creates a boolean shape from multiple shapes.
 ///
 /// The shapes are combined pairwise using the given operation.
-pub fn new_boolean_shape(op: Op, shapes: Vec<Arc<dyn Shape + Send + Sync>>) -> Arc<dyn Shape + Send + Sync> {
+pub fn new_boolean_shape(
+    op: Op,
+    shapes: Vec<Arc<dyn Shape + Send + Sync>>,
+) -> Arc<dyn Shape + Send + Sync> {
     if shapes.is_empty() {
         return Arc::new(EmptyShape);
     }
@@ -143,11 +146,11 @@ impl Shape for BooleanShape {
         let h2 = self.b.intersect(r);
         let h = h1.min(h2);
         let v = r.position(h.t);
-        
+
         if !h.is_ok() || self.contains(v, 0.0) {
             return h;
         }
-        
+
         self.intersect(Ray::new(r.position(h.t + 0.01), r.direction))
     }
 

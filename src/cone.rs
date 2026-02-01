@@ -35,27 +35,27 @@ impl Shape for Cone {
         let d = ray.direction;
         let r = self.radius;
         let h = self.height;
-        
+
         let k = r / h;
         let k = k * k;
-        
+
         let a = d.x * d.x + d.y * d.y - k * d.z * d.z;
         let b = 2.0 * (d.x * o.x + d.y * o.y - k * d.z * (o.z - h));
         let c = o.x * o.x + o.y * o.y - k * (o.z - h) * (o.z - h);
         let q = b * b - 4.0 * a * c;
-        
+
         if q <= 0.0 {
             return Hit::no_hit();
         }
-        
+
         let s = q.sqrt();
         let mut t0 = (-b + s) / (2.0 * a);
         let mut t1 = (-b - s) / (2.0 * a);
-        
+
         if t0 > t1 {
             std::mem::swap(&mut t0, &mut t1);
         }
-        
+
         if t0 > 1e-6 {
             let p = ray.position(t0);
             if p.z > 0.0 && p.z < h {
@@ -129,18 +129,24 @@ impl Shape for OutlineCone {
         let c0 = self.eye.add(w.mul_scalar(d));
         let a0 = c0.add(u.mul_scalar(self.cone.radius * 1.01));
         let b0 = c0.add(u.mul_scalar(-self.cone.radius * 1.01));
-        
+
         let mut p0 = Vec::new();
         for a in 0..360 {
             let x = self.cone.radius * radians(a as f64).cos();
             let y = self.cone.radius * radians(a as f64).sin();
             p0.push(Vector::new(x, y, 0.0));
         }
-        
+
         Paths::from_vec(vec![
             p0,
-            vec![Vector::new(a0.x, a0.y, 0.0), Vector::new(0.0, 0.0, self.cone.height)],
-            vec![Vector::new(b0.x, b0.y, 0.0), Vector::new(0.0, 0.0, self.cone.height)],
+            vec![
+                Vector::new(a0.x, a0.y, 0.0),
+                Vector::new(0.0, 0.0, self.cone.height),
+            ],
+            vec![
+                Vector::new(b0.x, b0.y, 0.0),
+                Vector::new(0.0, 0.0, self.cone.height),
+            ],
         ])
     }
 }

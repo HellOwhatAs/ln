@@ -39,7 +39,12 @@ where
     F: Fn(f64, f64) -> f64 + Send + Sync,
 {
     pub fn new(func: F, bx: Box, direction: Direction) -> Self {
-        Function { func, bx, direction, texture: FunctionTexture::default() }
+        Function {
+            func,
+            bx,
+            direction,
+            texture: FunctionTexture::default(),
+        }
     }
 
     pub fn with_texture(mut self, texture: FunctionTexture) -> Self {
@@ -67,7 +72,7 @@ where
     fn intersect(&self, ray: Ray) -> Hit {
         let step = 1.0 / 64.0;
         let sign = self.contains(ray.position(step), 0.0);
-        
+
         let mut t = step;
         while t < 10.0 {
             let v = ray.position(t);

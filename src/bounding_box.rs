@@ -63,9 +63,12 @@ impl Box {
     }
 
     pub fn contains(&self, v: Vector) -> bool {
-        self.min.x <= v.x && self.max.x >= v.x &&
-        self.min.y <= v.y && self.max.y >= v.y &&
-        self.min.z <= v.z && self.max.z >= v.z
+        self.min.x <= v.x
+            && self.max.x >= v.x
+            && self.min.y <= v.y
+            && self.max.y >= v.y
+            && self.min.z <= v.z
+            && self.max.z >= v.z
     }
 
     pub fn extend(&self, other: Box) -> Box {

@@ -49,20 +49,44 @@ use crate::vector::Vector;
 /// ```
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Matrix {
-    pub x00: f64, pub x01: f64, pub x02: f64, pub x03: f64,
-    pub x10: f64, pub x11: f64, pub x12: f64, pub x13: f64,
-    pub x20: f64, pub x21: f64, pub x22: f64, pub x23: f64,
-    pub x30: f64, pub x31: f64, pub x32: f64, pub x33: f64,
+    pub x00: f64,
+    pub x01: f64,
+    pub x02: f64,
+    pub x03: f64,
+    pub x10: f64,
+    pub x11: f64,
+    pub x12: f64,
+    pub x13: f64,
+    pub x20: f64,
+    pub x21: f64,
+    pub x22: f64,
+    pub x23: f64,
+    pub x30: f64,
+    pub x31: f64,
+    pub x32: f64,
+    pub x33: f64,
 }
 
 impl Matrix {
     /// Returns the 4x4 identity matrix.
     pub fn identity() -> Self {
         Matrix {
-            x00: 1.0, x01: 0.0, x02: 0.0, x03: 0.0,
-            x10: 0.0, x11: 1.0, x12: 0.0, x13: 0.0,
-            x20: 0.0, x21: 0.0, x22: 1.0, x23: 0.0,
-            x30: 0.0, x31: 0.0, x32: 0.0, x33: 1.0,
+            x00: 1.0,
+            x01: 0.0,
+            x02: 0.0,
+            x03: 0.0,
+            x10: 0.0,
+            x11: 1.0,
+            x12: 0.0,
+            x13: 0.0,
+            x20: 0.0,
+            x21: 0.0,
+            x22: 1.0,
+            x23: 0.0,
+            x30: 0.0,
+            x31: 0.0,
+            x32: 0.0,
+            x33: 1.0,
         }
     }
 
@@ -79,20 +103,44 @@ impl Matrix {
     /// ```
     pub fn translate(v: Vector) -> Self {
         Matrix {
-            x00: 1.0, x01: 0.0, x02: 0.0, x03: v.x,
-            x10: 0.0, x11: 1.0, x12: 0.0, x13: v.y,
-            x20: 0.0, x21: 0.0, x22: 1.0, x23: v.z,
-            x30: 0.0, x31: 0.0, x32: 0.0, x33: 1.0,
+            x00: 1.0,
+            x01: 0.0,
+            x02: 0.0,
+            x03: v.x,
+            x10: 0.0,
+            x11: 1.0,
+            x12: 0.0,
+            x13: v.y,
+            x20: 0.0,
+            x21: 0.0,
+            x22: 1.0,
+            x23: v.z,
+            x30: 0.0,
+            x31: 0.0,
+            x32: 0.0,
+            x33: 1.0,
         }
     }
 
     /// Creates a scale matrix.
     pub fn scale(v: Vector) -> Self {
         Matrix {
-            x00: v.x, x01: 0.0, x02: 0.0, x03: 0.0,
-            x10: 0.0, x11: v.y, x12: 0.0, x13: 0.0,
-            x20: 0.0, x21: 0.0, x22: v.z, x23: 0.0,
-            x30: 0.0, x31: 0.0, x32: 0.0, x33: 1.0,
+            x00: v.x,
+            x01: 0.0,
+            x02: 0.0,
+            x03: 0.0,
+            x10: 0.0,
+            x11: v.y,
+            x12: 0.0,
+            x13: 0.0,
+            x20: 0.0,
+            x21: 0.0,
+            x22: v.z,
+            x23: 0.0,
+            x30: 0.0,
+            x31: 0.0,
+            x32: 0.0,
+            x33: 1.0,
         }
     }
 
@@ -140,20 +188,44 @@ impl Matrix {
         let t3 = t - b;
         let t4 = f - n;
         Matrix {
-            x00: t1 / t2, x01: 0.0, x02: (r + l) / t2, x03: 0.0,
-            x10: 0.0, x11: t1 / t3, x12: (t + b) / t3, x13: 0.0,
-            x20: 0.0, x21: 0.0, x22: (-f - n) / t4, x23: (-t1 * f) / t4,
-            x30: 0.0, x31: 0.0, x32: -1.0, x33: 0.0,
+            x00: t1 / t2,
+            x01: 0.0,
+            x02: (r + l) / t2,
+            x03: 0.0,
+            x10: 0.0,
+            x11: t1 / t3,
+            x12: (t + b) / t3,
+            x13: 0.0,
+            x20: 0.0,
+            x21: 0.0,
+            x22: (-f - n) / t4,
+            x23: (-t1 * f) / t4,
+            x30: 0.0,
+            x31: 0.0,
+            x32: -1.0,
+            x33: 0.0,
         }
     }
 
     /// Creates an orthographic projection matrix.
     pub fn orthographic(l: f64, r: f64, b: f64, t: f64, n: f64, f: f64) -> Self {
         Matrix {
-            x00: 2.0 / (r - l), x01: 0.0, x02: 0.0, x03: -(r + l) / (r - l),
-            x10: 0.0, x11: 2.0 / (t - b), x12: 0.0, x13: -(t + b) / (t - b),
-            x20: 0.0, x21: 0.0, x22: -2.0 / (f - n), x23: -(f + n) / (f - n),
-            x30: 0.0, x31: 0.0, x32: 0.0, x33: 1.0,
+            x00: 2.0 / (r - l),
+            x01: 0.0,
+            x02: 0.0,
+            x03: -(r + l) / (r - l),
+            x10: 0.0,
+            x11: 2.0 / (t - b),
+            x12: 0.0,
+            x13: -(t + b) / (t - b),
+            x20: 0.0,
+            x21: 0.0,
+            x22: -2.0 / (f - n),
+            x23: -(f + n) / (f - n),
+            x30: 0.0,
+            x31: 0.0,
+            x32: 0.0,
+            x33: 1.0,
         }
     }
 
@@ -184,10 +256,22 @@ impl Matrix {
         let s = f.cross(up).normalize();
         let u = s.cross(f).normalize();
         let m = Matrix {
-            x00: s.x, x01: u.x, x02: -f.x, x03: eye.x,
-            x10: s.y, x11: u.y, x12: -f.y, x13: eye.y,
-            x20: s.z, x21: u.z, x22: -f.z, x23: eye.z,
-            x30: 0.0, x31: 0.0, x32: 0.0, x33: 1.0,
+            x00: s.x,
+            x01: u.x,
+            x02: -f.x,
+            x03: eye.x,
+            x10: s.y,
+            x11: u.y,
+            x12: -f.y,
+            x13: eye.y,
+            x20: s.z,
+            x21: u.z,
+            x22: -f.z,
+            x23: eye.z,
+            x30: 0.0,
+            x31: 0.0,
+            x32: 0.0,
+            x33: 1.0,
         };
         m.inverse()
     }
@@ -301,28 +385,51 @@ impl Matrix {
     /// Returns the transpose of this matrix.
     pub fn transpose(&self) -> Matrix {
         Matrix {
-            x00: self.x00, x01: self.x10, x02: self.x20, x03: self.x30,
-            x10: self.x01, x11: self.x11, x12: self.x21, x13: self.x31,
-            x20: self.x02, x21: self.x12, x22: self.x22, x23: self.x32,
-            x30: self.x03, x31: self.x13, x32: self.x23, x33: self.x33,
+            x00: self.x00,
+            x01: self.x10,
+            x02: self.x20,
+            x03: self.x30,
+            x10: self.x01,
+            x11: self.x11,
+            x12: self.x21,
+            x13: self.x31,
+            x20: self.x02,
+            x21: self.x12,
+            x22: self.x22,
+            x23: self.x32,
+            x30: self.x03,
+            x31: self.x13,
+            x32: self.x23,
+            x33: self.x33,
         }
     }
 
     /// Computes the determinant of this matrix.
     pub fn determinant(&self) -> f64 {
         let a = self;
-        a.x00 * a.x11 * a.x22 * a.x33 - a.x00 * a.x11 * a.x23 * a.x32 +
-        a.x00 * a.x12 * a.x23 * a.x31 - a.x00 * a.x12 * a.x21 * a.x33 +
-        a.x00 * a.x13 * a.x21 * a.x32 - a.x00 * a.x13 * a.x22 * a.x31 -
-        a.x01 * a.x12 * a.x23 * a.x30 + a.x01 * a.x12 * a.x20 * a.x33 -
-        a.x01 * a.x13 * a.x20 * a.x32 + a.x01 * a.x13 * a.x22 * a.x30 -
-        a.x01 * a.x10 * a.x22 * a.x33 + a.x01 * a.x10 * a.x23 * a.x32 +
-        a.x02 * a.x13 * a.x20 * a.x31 - a.x02 * a.x13 * a.x21 * a.x30 +
-        a.x02 * a.x10 * a.x21 * a.x33 - a.x02 * a.x10 * a.x23 * a.x31 +
-        a.x02 * a.x11 * a.x23 * a.x30 - a.x02 * a.x11 * a.x20 * a.x33 -
-        a.x03 * a.x10 * a.x21 * a.x32 + a.x03 * a.x10 * a.x22 * a.x31 -
-        a.x03 * a.x11 * a.x22 * a.x30 + a.x03 * a.x11 * a.x20 * a.x32 -
-        a.x03 * a.x12 * a.x20 * a.x31 + a.x03 * a.x12 * a.x21 * a.x30
+        a.x00 * a.x11 * a.x22 * a.x33 - a.x00 * a.x11 * a.x23 * a.x32
+            + a.x00 * a.x12 * a.x23 * a.x31
+            - a.x00 * a.x12 * a.x21 * a.x33
+            + a.x00 * a.x13 * a.x21 * a.x32
+            - a.x00 * a.x13 * a.x22 * a.x31
+            - a.x01 * a.x12 * a.x23 * a.x30
+            + a.x01 * a.x12 * a.x20 * a.x33
+            - a.x01 * a.x13 * a.x20 * a.x32
+            + a.x01 * a.x13 * a.x22 * a.x30
+            - a.x01 * a.x10 * a.x22 * a.x33
+            + a.x01 * a.x10 * a.x23 * a.x32
+            + a.x02 * a.x13 * a.x20 * a.x31
+            - a.x02 * a.x13 * a.x21 * a.x30
+            + a.x02 * a.x10 * a.x21 * a.x33
+            - a.x02 * a.x10 * a.x23 * a.x31
+            + a.x02 * a.x11 * a.x23 * a.x30
+            - a.x02 * a.x11 * a.x20 * a.x33
+            - a.x03 * a.x10 * a.x21 * a.x32
+            + a.x03 * a.x10 * a.x22 * a.x31
+            - a.x03 * a.x11 * a.x22 * a.x30
+            + a.x03 * a.x11 * a.x20 * a.x32
+            - a.x03 * a.x12 * a.x20 * a.x31
+            + a.x03 * a.x12 * a.x21 * a.x30
     }
 
     /// Computes the inverse of this matrix.
@@ -330,22 +437,86 @@ impl Matrix {
         let a = self;
         let d = self.determinant();
         Matrix {
-            x00: (a.x12 * a.x23 * a.x31 - a.x13 * a.x22 * a.x31 + a.x13 * a.x21 * a.x32 - a.x11 * a.x23 * a.x32 - a.x12 * a.x21 * a.x33 + a.x11 * a.x22 * a.x33) / d,
-            x01: (a.x03 * a.x22 * a.x31 - a.x02 * a.x23 * a.x31 - a.x03 * a.x21 * a.x32 + a.x01 * a.x23 * a.x32 + a.x02 * a.x21 * a.x33 - a.x01 * a.x22 * a.x33) / d,
-            x02: (a.x02 * a.x13 * a.x31 - a.x03 * a.x12 * a.x31 + a.x03 * a.x11 * a.x32 - a.x01 * a.x13 * a.x32 - a.x02 * a.x11 * a.x33 + a.x01 * a.x12 * a.x33) / d,
-            x03: (a.x03 * a.x12 * a.x21 - a.x02 * a.x13 * a.x21 - a.x03 * a.x11 * a.x22 + a.x01 * a.x13 * a.x22 + a.x02 * a.x11 * a.x23 - a.x01 * a.x12 * a.x23) / d,
-            x10: (a.x13 * a.x22 * a.x30 - a.x12 * a.x23 * a.x30 - a.x13 * a.x20 * a.x32 + a.x10 * a.x23 * a.x32 + a.x12 * a.x20 * a.x33 - a.x10 * a.x22 * a.x33) / d,
-            x11: (a.x02 * a.x23 * a.x30 - a.x03 * a.x22 * a.x30 + a.x03 * a.x20 * a.x32 - a.x00 * a.x23 * a.x32 - a.x02 * a.x20 * a.x33 + a.x00 * a.x22 * a.x33) / d,
-            x12: (a.x03 * a.x12 * a.x30 - a.x02 * a.x13 * a.x30 - a.x03 * a.x10 * a.x32 + a.x00 * a.x13 * a.x32 + a.x02 * a.x10 * a.x33 - a.x00 * a.x12 * a.x33) / d,
-            x13: (a.x02 * a.x13 * a.x20 - a.x03 * a.x12 * a.x20 + a.x03 * a.x10 * a.x22 - a.x00 * a.x13 * a.x22 - a.x02 * a.x10 * a.x23 + a.x00 * a.x12 * a.x23) / d,
-            x20: (a.x11 * a.x23 * a.x30 - a.x13 * a.x21 * a.x30 + a.x13 * a.x20 * a.x31 - a.x10 * a.x23 * a.x31 - a.x11 * a.x20 * a.x33 + a.x10 * a.x21 * a.x33) / d,
-            x21: (a.x03 * a.x21 * a.x30 - a.x01 * a.x23 * a.x30 - a.x03 * a.x20 * a.x31 + a.x00 * a.x23 * a.x31 + a.x01 * a.x20 * a.x33 - a.x00 * a.x21 * a.x33) / d,
-            x22: (a.x01 * a.x13 * a.x30 - a.x03 * a.x11 * a.x30 + a.x03 * a.x10 * a.x31 - a.x00 * a.x13 * a.x31 - a.x01 * a.x10 * a.x33 + a.x00 * a.x11 * a.x33) / d,
-            x23: (a.x03 * a.x11 * a.x20 - a.x01 * a.x13 * a.x20 - a.x03 * a.x10 * a.x21 + a.x00 * a.x13 * a.x21 + a.x01 * a.x10 * a.x23 - a.x00 * a.x11 * a.x23) / d,
-            x30: (a.x12 * a.x21 * a.x30 - a.x11 * a.x22 * a.x30 - a.x12 * a.x20 * a.x31 + a.x10 * a.x22 * a.x31 + a.x11 * a.x20 * a.x32 - a.x10 * a.x21 * a.x32) / d,
-            x31: (a.x01 * a.x22 * a.x30 - a.x02 * a.x21 * a.x30 + a.x02 * a.x20 * a.x31 - a.x00 * a.x22 * a.x31 - a.x01 * a.x20 * a.x32 + a.x00 * a.x21 * a.x32) / d,
-            x32: (a.x02 * a.x11 * a.x30 - a.x01 * a.x12 * a.x30 - a.x02 * a.x10 * a.x31 + a.x00 * a.x12 * a.x31 + a.x01 * a.x10 * a.x32 - a.x00 * a.x11 * a.x32) / d,
-            x33: (a.x01 * a.x12 * a.x20 - a.x02 * a.x11 * a.x20 + a.x02 * a.x10 * a.x21 - a.x00 * a.x12 * a.x21 - a.x01 * a.x10 * a.x22 + a.x00 * a.x11 * a.x22) / d,
+            x00: (a.x12 * a.x23 * a.x31 - a.x13 * a.x22 * a.x31 + a.x13 * a.x21 * a.x32
+                - a.x11 * a.x23 * a.x32
+                - a.x12 * a.x21 * a.x33
+                + a.x11 * a.x22 * a.x33)
+                / d,
+            x01: (a.x03 * a.x22 * a.x31 - a.x02 * a.x23 * a.x31 - a.x03 * a.x21 * a.x32
+                + a.x01 * a.x23 * a.x32
+                + a.x02 * a.x21 * a.x33
+                - a.x01 * a.x22 * a.x33)
+                / d,
+            x02: (a.x02 * a.x13 * a.x31 - a.x03 * a.x12 * a.x31 + a.x03 * a.x11 * a.x32
+                - a.x01 * a.x13 * a.x32
+                - a.x02 * a.x11 * a.x33
+                + a.x01 * a.x12 * a.x33)
+                / d,
+            x03: (a.x03 * a.x12 * a.x21 - a.x02 * a.x13 * a.x21 - a.x03 * a.x11 * a.x22
+                + a.x01 * a.x13 * a.x22
+                + a.x02 * a.x11 * a.x23
+                - a.x01 * a.x12 * a.x23)
+                / d,
+            x10: (a.x13 * a.x22 * a.x30 - a.x12 * a.x23 * a.x30 - a.x13 * a.x20 * a.x32
+                + a.x10 * a.x23 * a.x32
+                + a.x12 * a.x20 * a.x33
+                - a.x10 * a.x22 * a.x33)
+                / d,
+            x11: (a.x02 * a.x23 * a.x30 - a.x03 * a.x22 * a.x30 + a.x03 * a.x20 * a.x32
+                - a.x00 * a.x23 * a.x32
+                - a.x02 * a.x20 * a.x33
+                + a.x00 * a.x22 * a.x33)
+                / d,
+            x12: (a.x03 * a.x12 * a.x30 - a.x02 * a.x13 * a.x30 - a.x03 * a.x10 * a.x32
+                + a.x00 * a.x13 * a.x32
+                + a.x02 * a.x10 * a.x33
+                - a.x00 * a.x12 * a.x33)
+                / d,
+            x13: (a.x02 * a.x13 * a.x20 - a.x03 * a.x12 * a.x20 + a.x03 * a.x10 * a.x22
+                - a.x00 * a.x13 * a.x22
+                - a.x02 * a.x10 * a.x23
+                + a.x00 * a.x12 * a.x23)
+                / d,
+            x20: (a.x11 * a.x23 * a.x30 - a.x13 * a.x21 * a.x30 + a.x13 * a.x20 * a.x31
+                - a.x10 * a.x23 * a.x31
+                - a.x11 * a.x20 * a.x33
+                + a.x10 * a.x21 * a.x33)
+                / d,
+            x21: (a.x03 * a.x21 * a.x30 - a.x01 * a.x23 * a.x30 - a.x03 * a.x20 * a.x31
+                + a.x00 * a.x23 * a.x31
+                + a.x01 * a.x20 * a.x33
+                - a.x00 * a.x21 * a.x33)
+                / d,
+            x22: (a.x01 * a.x13 * a.x30 - a.x03 * a.x11 * a.x30 + a.x03 * a.x10 * a.x31
+                - a.x00 * a.x13 * a.x31
+                - a.x01 * a.x10 * a.x33
+                + a.x00 * a.x11 * a.x33)
+                / d,
+            x23: (a.x03 * a.x11 * a.x20 - a.x01 * a.x13 * a.x20 - a.x03 * a.x10 * a.x21
+                + a.x00 * a.x13 * a.x21
+                + a.x01 * a.x10 * a.x23
+                - a.x00 * a.x11 * a.x23)
+                / d,
+            x30: (a.x12 * a.x21 * a.x30 - a.x11 * a.x22 * a.x30 - a.x12 * a.x20 * a.x31
+                + a.x10 * a.x22 * a.x31
+                + a.x11 * a.x20 * a.x32
+                - a.x10 * a.x21 * a.x32)
+                / d,
+            x31: (a.x01 * a.x22 * a.x30 - a.x02 * a.x21 * a.x30 + a.x02 * a.x20 * a.x31
+                - a.x00 * a.x22 * a.x31
+                - a.x01 * a.x20 * a.x32
+                + a.x00 * a.x21 * a.x32)
+                / d,
+            x32: (a.x02 * a.x11 * a.x30 - a.x01 * a.x12 * a.x30 - a.x02 * a.x10 * a.x31
+                + a.x00 * a.x12 * a.x31
+                + a.x01 * a.x10 * a.x32
+                - a.x00 * a.x11 * a.x32)
+                / d,
+            x33: (a.x01 * a.x12 * a.x20 - a.x02 * a.x11 * a.x20 + a.x02 * a.x10 * a.x21
+                - a.x00 * a.x12 * a.x21
+                - a.x01 * a.x10 * a.x22
+                + a.x00 * a.x11 * a.x22)
+                / d,
         }
     }
 }

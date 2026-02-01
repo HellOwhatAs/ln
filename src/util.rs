@@ -32,13 +32,13 @@ pub fn degrees(radians: f64) -> f64 {
 }
 
 /// Computes the median of a sorted slice of floats.
-/// 
+///
 /// # Arguments
 /// * `items` - A sorted slice of f64 values
-/// 
+///
 /// # Returns
 /// The median value. Returns 0.0 for empty slices.
-/// 
+///
 /// # Note
 /// The caller must ensure the slice is sorted before calling this function.
 pub fn median(items: &[f64]) -> f64 {
@@ -55,7 +55,8 @@ pub fn median(items: &[f64]) -> f64 {
 }
 
 pub fn parse_floats(items: &[&str]) -> Vec<f64> {
-    items.iter()
+    items
+        .iter()
         .map(|s| s.parse::<f64>().unwrap_or(0.0))
         .collect()
 }

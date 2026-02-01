@@ -95,7 +95,9 @@ impl Paths {
 
     /// Applies a transformation matrix to all paths.
     pub fn transform(&self, matrix: &Matrix) -> Paths {
-        let paths = self.paths.iter()
+        let paths = self
+            .paths
+            .iter()
             .map(|path| path_transform(path, matrix))
             .collect();
         Paths { paths }
@@ -106,7 +108,9 @@ impl Paths {
     /// This is used internally for visibility testing. The `step` parameter
     /// controls the maximum distance between consecutive points.
     pub fn chop(&self, step: f64) -> Paths {
-        let paths = self.paths.iter()
+        let paths = self
+            .paths
+            .iter()
             .map(|path| path_chop(path, step))
             .collect();
         Paths { paths }
@@ -126,7 +130,9 @@ impl Paths {
     /// Uses the Ramer-Douglas-Peucker algorithm to reduce the number of
     /// points while preserving the overall shape.
     pub fn simplify(&self, threshold: f64) -> Paths {
-        let paths = self.paths.iter()
+        let paths = self
+            .paths
+            .iter()
             .map(|path| path_simplify(path, threshold))
             .collect();
         Paths { paths }
@@ -144,7 +150,10 @@ impl Paths {
             "<svg width=\"{}\" height=\"{}\" version=\"1.1\" baseProfile=\"full\" xmlns=\"http://www.w3.org/2000/svg\">",
             width, height
         ));
-        lines.push(format!("<g transform=\"translate(0,{}) scale(1,-1)\">", height));
+        lines.push(format!(
+            "<g transform=\"translate(0,{}) scale(1,-1)\">",
+            height
+        ));
         for path in &self.paths {
             lines.push(path_to_svg(path));
         }
@@ -201,20 +210,25 @@ impl Paths {
         let scale = 1.0;
         let w = (width * scale) as u32;
         let h = (height * scale) as u32;
-        
-        let mut img: ImageBuffer<Rgb<u8>, Vec<u8>> = ImageBuffer::from_pixel(w, h, Rgb([255, 255, 255]));
-        
+
+        let mut img: ImageBuffer<Rgb<u8>, Vec<u8>> =
+            ImageBuffer::from_pixel(w, h, Rgb([255, 255, 255]));
+
         for path_points in &self.paths {
             for i in 0..path_points.len().saturating_sub(1) {
                 let p1 = &path_points[i];
                 let p2 = &path_points[i + 1];
-                draw_line(&mut img, 
-                    (p1.x * scale) as i32, (h as f64 - p1.y * scale) as i32,
-                    (p2.x * scale) as i32, (h as f64 - p2.y * scale) as i32,
-                    Rgb([0, 0, 0]));
+                draw_line(
+                    &mut img,
+                    (p1.x * scale) as i32,
+                    (h as f64 - p1.y * scale) as i32,
+                    (p2.x * scale) as i32,
+                    (h as f64 - p2.y * scale) as i32,
+                    Rgb([0, 0, 0]),
+                );
             }
         }
-        
+
         img.save(path).expect("Failed to save PNG");
     }
 
@@ -224,7 +238,8 @@ impl Paths {
     pub fn write_to_txt(&self, path: &str) -> std::io::Result<()> {
         let mut file = std::fs::File::create(path)?;
         for path_points in &self.paths {
-            let line: Vec<String> = path_points.iter()
+            let line: Vec<String> = path_points
+                .iter()
                 .map(|v| format!("{},{}", v.x, v.y))
                 .collect();
             writeln!(file, "{}", line.join(";"))?;
@@ -233,7 +248,14 @@ impl Paths {
     }
 }
 
-fn draw_line(img: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, x0: i32, y0: i32, x1: i32, y1: i32, color: Rgb<u8>) {
+fn draw_line(
+    img: &mut ImageBuffer<Rgb<u8>, Vec<u8>>,
+    x0: i32,
+    y0: i32,
+    x1: i32,
+    y1: i32,
+    color: Rgb<u8>,
+) {
     let dx = (x1 - x0).abs();
     let dy = -(y1 - y0).abs();
     let sx = if x0 < x1 { 1 } else { -1 };
@@ -241,15 +263,17 @@ fn draw_line(img: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, x0: i32, y0: i32, x1: i32,
     let mut err = dx + dy;
     let mut x = x0;
     let mut y = y0;
-    
+
     let w = img.width() as i32;
     let h = img.height() as i32;
-    
+
     loop {
         if x >= 0 && x < w && y >= 0 && y < h {
             img.put_pixel(x as u32, y as u32, color);
         }
-        if x == x1 && y == y1 { break; }
+        if x == x1 && y == y1 {
+            break;
+        }
         let e2 = 2 * err;
         if e2 >= dy {
             err += dy;
@@ -300,7 +324,7 @@ fn path_chop(path: &Path, step: f64) -> Path {
 fn path_filter<F: Filter>(path: &Path, f: &F) -> Vec<Path> {
     let mut result = Vec::new();
     let mut current_path = Vec::new();
-    
+
     for v in path {
         if let Some(new_v) = f.filter(*v) {
             current_path.push(new_v);
@@ -311,11 +335,11 @@ fn path_filter<F: Filter>(path: &Path, f: &F) -> Vec<Path> {
             current_path = Vec::new();
         }
     }
-    
+
     if current_path.len() > 1 {
         result.push(current_path);
     }
-    
+
     result
 }
 
@@ -327,7 +351,7 @@ fn path_simplify(path: &Path, threshold: f64) -> Path {
     let b = path[path.len() - 1];
     let mut index = 0;
     let mut distance = 0.0_f64;
-    
+
     for (i, p) in path.iter().enumerate().skip(1).take(path.len() - 2) {
         let d = p.segment_distance(a, b);
         if d > distance {
@@ -335,11 +359,11 @@ fn path_simplify(path: &Path, threshold: f64) -> Path {
             distance = d;
         }
     }
-    
+
     if distance > threshold {
         let r1 = path_simplify(&path[..=index].to_vec(), threshold);
         let r2 = path_simplify(&path[index..].to_vec(), threshold);
-        let mut result = r1[..r1.len()-1].to_vec();
+        let mut result = r1[..r1.len() - 1].to_vec();
         result.extend(r2);
         result
     } else {
@@ -348,9 +372,10 @@ fn path_simplify(path: &Path, threshold: f64) -> Path {
 }
 
 fn path_to_svg(path: &Path) -> String {
-    let coords: Vec<String> = path.iter()
-        .map(|v| format!("{},{}", v.x, v.y))
-        .collect();
+    let coords: Vec<String> = path.iter().map(|v| format!("{},{}", v.x, v.y)).collect();
     let points = coords.join(" ");
-    format!("<polyline stroke=\"black\" fill=\"none\" points=\"{}\" />", points)
+    format!(
+        "<polyline stroke=\"black\" fill=\"none\" points=\"{}\" />",
+        points
+    )
 }

@@ -14,8 +14,16 @@ pub struct ClipFilter<'a> {
 }
 
 pub static CLIP_BOX: Box = Box {
-    min: Vector { x: -1.0, y: -1.0, z: -1.0 },
-    max: Vector { x: 1.0, y: 1.0, z: 1.0 },
+    min: Vector {
+        x: -1.0,
+        y: -1.0,
+        z: -1.0,
+    },
+    max: Vector {
+        x: 1.0,
+        y: 1.0,
+        z: 1.0,
+    },
 };
 
 impl<'a> Filter for ClipFilter<'a> {

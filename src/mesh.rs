@@ -33,7 +33,10 @@ impl Mesh {
     }
 
     pub fn unit_cube(&mut self) {
-        self.fit_inside(Box::new(Vector::default(), Vector::new(1.0, 1.0, 1.0)), Vector::default());
+        self.fit_inside(
+            Box::new(Vector::default(), Vector::new(1.0, 1.0, 1.0)),
+            Vector::default(),
+        );
         self.move_to(Vector::default(), Vector::new(0.5, 0.5, 0.5));
     }
 
@@ -67,7 +70,7 @@ impl Mesh {
         let z1 = self.bx.min.z;
         let z2 = self.bx.max.z;
         let mut set: HashSet<(i64, i64, i64)> = HashSet::new();
-        
+
         let mut z = z1;
         while z <= z2 {
             let plane = Plane::new(Vector::new(0.0, 0.0, z), Vector::new(0.0, 0.0, 1.0));
@@ -82,7 +85,7 @@ impl Mesh {
             }
             z += size;
         }
-        
+
         set.into_iter()
             .map(|(x, y, z)| {
                 let v = Vector::new(x as f64 / 1000.0, y as f64 / 1000.0, z as f64 / 1000.0);
@@ -95,7 +98,9 @@ impl Mesh {
 impl Shape for Mesh {
     fn compile(&mut self) {
         if self.tree.is_none() {
-            let shapes: Vec<Arc<dyn Shape + Send + Sync>> = self.triangles.iter()
+            let shapes: Vec<Arc<dyn Shape + Send + Sync>> = self
+                .triangles
+                .iter()
                 .map(|t| Arc::new(t.clone()) as Arc<dyn Shape + Send + Sync>)
                 .collect();
             self.tree = Some(Arc::new(Tree::new(shapes)));
@@ -111,7 +116,9 @@ impl Shape for Mesh {
     }
 
     fn intersect(&self, r: Ray) -> Hit {
-        self.tree.as_ref().map_or(Hit::no_hit(), |tree| tree.intersect(r))
+        self.tree
+            .as_ref()
+            .map_or(Hit::no_hit(), |tree| tree.intersect(r))
     }
 
     fn paths(&self) -> Paths {
