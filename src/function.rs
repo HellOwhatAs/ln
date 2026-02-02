@@ -195,12 +195,15 @@ where
         let mut path = Vec::new();
         let n = 10000;
         let max_radius = self.max_radius();
+        // Scale revolutions proportionally to maintain consistent line density
+        // Original formula was calibrated for radius 8.0 with 3000 revolutions
+        let revolutions = 3000.0 * (max_radius / 8.0);
 
         for i in 0..n {
             let t = i as f64 / n as f64;
             let r = max_radius - t.powf(0.1) * max_radius;
-            let x = radians(t * 2.0 * std::f64::consts::PI * 3000.0).cos() * r;
-            let y = radians(t * 2.0 * std::f64::consts::PI * 3000.0).sin() * r;
+            let x = radians(t * 2.0 * std::f64::consts::PI * revolutions).cos() * r;
+            let y = radians(t * 2.0 * std::f64::consts::PI * revolutions).sin() * r;
             let mut z = (self.func)(x, y);
             z = z.min(self.bx.max.z).max(self.bx.min.z);
 
