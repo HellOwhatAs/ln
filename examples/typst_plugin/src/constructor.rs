@@ -6,6 +6,7 @@ use std::sync::Arc;
 pub enum Matrix {
     Rotate { v: [f64; 3], a: f64 },
     Scale { v: [f64; 3] },
+    Translate { v: [f64; 3] },
 }
 
 impl Matrix {
@@ -13,6 +14,7 @@ impl Matrix {
         match self {
             Matrix::Rotate { v, a } => ln::Matrix::rotate(ln::Vector::new(v[0], v[1], v[2]), a),
             Matrix::Scale { v } => ln::Matrix::scale(ln::Vector::new(v[0], v[1], v[2])),
+            Matrix::Translate { v } => ln::Matrix::translate(ln::Vector::new(v[0], v[1], v[2])),
         }
     }
 }
