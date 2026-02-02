@@ -26,6 +26,8 @@ pub enum LnShape {
     Cube {
         min: [f64; 3],
         max: [f64; 3],
+        texture: String,
+        stripes: Option<u64>,
     },
     Cylinder {
         radius: f64,
@@ -68,10 +70,26 @@ impl LnShape {
     ) -> Result<Arc<dyn ln::Shape + Send + Sync>, String> {
         Ok(match self {
             LnShape::Cone { radius, height } => Arc::new(ln::Cone::new(radius, height)),
-            LnShape::Cube { min, max } => {
+            LnShape::Cube {
+                min,
+                max,
+                texture,
+                stripes,
+            } => {
                 let min_v = ln::Vector::new(min[0], min[1], min[2]);
                 let max_v = ln::Vector::new(max[0], max[1], max[2]);
-                Arc::new(ln::Cube::new(min_v, max_v))
+                Arc::new(ln::Cube::new(min_v, max_v).with_texture(
+                    match (texture.as_str(), stripes) {
+                        ("Vanilla", _) => ln::CubeTexture::Vanilla,
+                        ("Stripes", Some(n)) => ln::CubeTexture::Striped(n),
+                        _ => {
+                            return Err(format!(
+                                "Invalid cube texture: {}, stripes: {:?}",
+                                texture, stripes
+                            ));
+                        }
+                    },
+                ))
             }
             LnShape::Cylinder { radius, z0, z1 } => Arc::new(ln::Cylinder::new(radius, z0, z1)),
             LnShape::Sphere {

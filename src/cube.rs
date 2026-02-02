@@ -25,6 +25,15 @@ use crate::ray::Ray;
 use crate::shape::Shape;
 use crate::vector::Vector;
 
+/// Texture style for the cube.
+#[derive(Debug, Clone)]
+pub enum CubeTexture {
+    /// Plain cube with edges only.
+    Vanilla,
+    /// Cube with striped pattern on faces.
+    Striped(u64),
+}
+
 /// An axis-aligned cube (rectangular cuboid).
 ///
 /// A `Cube` is defined by two opposite corners (minimum and maximum points).
@@ -46,6 +55,8 @@ pub struct Cube {
     pub max: Vector,
     /// Cached bounding box.
     pub bx: Box,
+    /// Texture style.
+    pub texture: CubeTexture,
 }
 
 impl Cube {
@@ -58,7 +69,14 @@ impl Cube {
             min,
             max,
             bx: Box::new(min, max),
+            texture: CubeTexture::Vanilla,
         }
+    }
+
+    /// Sets the texture style of the cube.
+    pub fn with_texture(mut self, texture: CubeTexture) -> Self {
+        self.texture = texture;
+        self
     }
 }
 
@@ -97,6 +115,15 @@ impl Shape for Cube {
     }
 
     fn paths(&self) -> Paths {
+        match self.texture {
+            CubeTexture::Vanilla => self.paths_vanilla(),
+            CubeTexture::Striped(stripes) => self.paths_striped(stripes),
+        }
+    }
+}
+
+impl Cube {
+    fn paths_vanilla(&self) -> Paths {
         let (x1, y1, z1) = (self.min.x, self.min.y, self.min.z);
         let (x2, y2, z2) = (self.max.x, self.max.y, self.max.z);
 
@@ -114,5 +141,31 @@ impl Shape for Cube {
             vec![Vector::new(x2, y1, z2), Vector::new(x2, y2, z2)],
             vec![Vector::new(x2, y2, z1), Vector::new(x2, y2, z2)],
         ])
+    }
+
+    fn paths_striped(&self, stripes: u64) -> Paths {
+        let (x1, y1, z1) = (self.min.x, self.min.y, self.min.z);
+        let (x2, y2, z2) = (self.max.x, self.max.y, self.max.z);
+        let mut paths = Vec::new();
+
+        for i in 0..=stripes {
+            let p = i as f64 / stripes as f64;
+            let x = x1 + (x2 - x1) * p;
+            let y = y1 + (y2 - y1) * p;
+            paths.push(vec![Vector::new(x, y1, z1), Vector::new(x, y1, z2)]);
+            paths.push(vec![Vector::new(x, y2, z1), Vector::new(x, y2, z2)]);
+            paths.push(vec![Vector::new(x1, y, z1), Vector::new(x1, y, z2)]);
+            paths.push(vec![Vector::new(x2, y, z1), Vector::new(x2, y, z2)]);
+
+            {
+                let x_ = x2 - (x2 - x1) * p;
+                let y_ = y2 - (y2 - y1) * p;
+                for z in [z1, z2] {
+                    paths.push(vec![Vector::new(x, y, z), Vector::new(x_, y, z)]);
+                    paths.push(vec![Vector::new(x, y, z), Vector::new(x, y_, z)]);
+                }
+            }
+        }
+        Paths::from_vec(paths)
     }
 }
