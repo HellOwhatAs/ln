@@ -144,6 +144,9 @@ impl Scene {
     /// `eye` to `point`.
     pub fn visible(&self, eye: Vector, point: Vector) -> bool {
         let v = eye.sub(point);
+        if v.length() == 0.0 {
+            return true;
+        }
         let r = Ray::new(point, v.normalize());
         let hit = self.intersect(r);
         hit.t >= v.length()

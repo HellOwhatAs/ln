@@ -172,7 +172,7 @@ impl Shape for OutlineCylinder {
 
         // Compute silhouette generator angles
         let ratio = c / sqrt_ab;
-        if self.eye.z > self.cylinder.z0 && self.eye.z < self.cylinder.z1 && ratio.abs() > 1.0 {
+        if ratio.abs() > 1.0 {
             // Eye is inside the cylinder - no proper silhouette
             // Fall back to full circles
             let mut p0 = Vec::new();
@@ -191,7 +191,7 @@ impl Shape for OutlineCylinder {
         let theta1 = eye_azimuth + angular_offset;
         let theta2 = eye_azimuth - angular_offset;
 
-        // For visbility of arcs, scale outer edge by 1/cos(π/360)
+        // For visibility of arcs, scale outer edge by 1/cos(π/360)
         let vscale = |angle_r: f64| {
             if (angle_r - eye_azimuth).cos() >= ratio {
                 1.0 / (std::f64::consts::PI / 360.0).cos()

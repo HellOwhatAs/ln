@@ -253,7 +253,14 @@ impl Matrix {
     pub fn look_at(eye: Vector, center: Vector, up: Vector) -> Self {
         let up = up.normalize();
         let f = center.sub(eye).normalize();
-        let s = f.cross(up).normalize();
+        let s = {
+            let s = f.cross(up);
+            if s.length() == 0.0 {
+                Vector::new(up.z, up.x, up.y)
+            } else {
+                s.normalize()
+            }
+        };
         let u = s.cross(f).normalize();
         let m = Matrix {
             x00: s.x,

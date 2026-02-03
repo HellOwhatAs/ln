@@ -1,15 +1,15 @@
 use ln::{
-    new_difference, new_intersection, radians, Cylinder, Matrix, Scene, Shape, Sphere,
+    new_difference, new_intersection, radians, CubeTexture, Cylinder, Matrix, Scene, Shape, Sphere,
     TransformedShape, Vector,
 };
 use std::sync::Arc;
 
 fn main() {
     let sphere: Arc<dyn Shape + Send + Sync> = Arc::new(Sphere::new(Vector::default(), 1.0));
-    let cube: Arc<dyn Shape + Send + Sync> = Arc::new(ln::Cube::new(
-        Vector::new(-0.8, -0.8, -0.8),
-        Vector::new(0.8, 0.8, 0.8),
-    ));
+    let cube: Arc<dyn Shape + Send + Sync> = Arc::new(
+        ln::Cube::new(Vector::new(-0.8, -0.8, -0.8), Vector::new(0.8, 0.8, 0.8))
+            .with_texture(CubeTexture::Striped(40)),
+    );
 
     let cyl1: Arc<dyn Shape + Send + Sync> = Arc::new(Cylinder::new(0.4, -2.0, 2.0));
     let cyl2: Arc<dyn Shape + Send + Sync> = Arc::new(TransformedShape::new(
