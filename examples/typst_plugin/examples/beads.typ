@@ -1,8 +1,8 @@
+// Takes more than a minute to render.
 #set page(margin: 0pt, height: auto)
 #import "@preview/suiji:0.5.1"
-#import "./lib.typ": *
+#import "../lib.typ": *
 
-// Takes more than a minute to render.
 #{
   let normalize(values, a, b) = {
     let lo = calc.min(..values)

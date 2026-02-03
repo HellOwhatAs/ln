@@ -1,6 +1,6 @@
 #set page(margin: 0pt, height: auto)
 #import "@preview/suiji:0.5.1"
-#import "./lib.typ": *
+#import "../lib.typ": *
 
 #let rng = suiji.gen-rng-f(42)
 
