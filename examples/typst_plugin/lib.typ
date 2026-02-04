@@ -1,6 +1,30 @@
 #let ln = plugin("./ln_typst_plugin.wasm")
 
-#let cone(radius, v0, v1) = {
+/// The cone shape.
+/// Can be warped with `outline()` to create outline cone.
+///
+/// ```example
+/// #render(
+///   eye: (1.2, -3., 2.),
+///   center: (1.2, 0., 0.2),
+///   height: 512.,
+///   cone(1., (0., 0., 0.), (0., 0., 1.)),
+///   outline(cone(1., (2.4, 0., 0.), (2.4, 0., 1.))),
+/// )
+/// ```
+///
+/// -> shape
+#let cone(
+  /// The radius of the cone.
+  /// -> float
+  radius,
+  /// The starting point of the cone's axis, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v0,
+  /// The ending point of the cone's axis, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v1,
+) = {
   assert(
     type(radius) == float and (v0, v1).all(v => type(v) == array and v.len() == 3 and v.all(i => type(i) == float)),
     message: "cone(radius, v0, v1) expects `radius` be a float and `v0`, `v1` be arrays of 3 floats",
@@ -14,7 +38,34 @@
   )
 }
 
-#let cube(min, max, texture: "Vanilla", stripes: 0) = {
+/// The cube shape.
+///
+/// ```example
+/// #render(
+///   eye: (1.25, 2.5, 2.0),
+///   center: (1.25, -1., -0.6),
+///   step: 0.01,
+///   height: 512.,
+///   cube((0., 0., 0.), (1., 1., 1.)),
+///   cube((1.5, 0., 0.), (2.5, 1., 1.), texture: "Stripes", stripes: 24),
+/// )
+/// ```
+///
+/// -> shape
+#let cube(
+  /// The minimum corner of the cube, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  min,
+  /// The maximum corner of the cube, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  max,
+  /// The texture pattern applied to the cube's surface. Can be either "Vanilla" or "Stripes".
+  /// -> str
+  texture: "Vanilla",
+  /// The number of stripes to apply if the "Stripes" texture is selected.
+  /// -> int
+  stripes: 8,
+) = {
   assert(
     (min, max).all(x => type(x) == array and x.len() == 3 and x.all(i => type(i) == float)),
     message: "cube(min, max) expects two array of 3 floats",
@@ -30,7 +81,30 @@
   )
 }
 
-#let cylinder(radius, v0, v1) = {
+/// The cylinder shape. Can be warped with `outline()` to create outline cylinder.
+///
+/// ```example
+/// #render(
+///   eye: (1.2, -3., 3.2),
+///   center: (1.2, 0., .2),
+///   height: 512.,
+///   cylinder(0.7, (0., 0., 0.), (0., 0., 1.)),
+///   outline(cylinder(0.7, (2.4, 0., 0.), (2.4, 0., 1.))),
+/// )
+/// ```
+///
+/// -> shape
+#let cylinder(
+  /// The radius of the cylinder.
+  /// -> float
+  radius,
+  /// The starting point of the cylinder's axis, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v0,
+  /// The ending point of the cylinder's axis, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v1,
+) = {
   assert(
     type(radius) == float and (v0, v1).all(v => type(v) == array and v.len() == 3 and v.all(i => type(i) == float)),
     message: "cylinder(radius, v0, v1) expects `radius` be a float and `v0`, `v1` be arrays of 3 floats",
@@ -44,7 +118,34 @@
   )
 }
 
-#let sphere(center, radius, texture: "LatLng", seed: 0) = {
+/// The sphere shape. Can be warped with `outline()` to create outline sphere.
+///
+/// ```example
+/// #render(
+///   height: 512.,
+///   fovy: 30.,
+///   sphere((0., 0., 0.), 1.0),
+///   outline(sphere((0., -2.2, 0.), 1.0)),
+///   sphere((2.2, 0., 0.), 1.0, texture: "RandomCircles", seed: 42),
+///   sphere((0., 2.2, 0.), 1.0, texture: "RandomEquators", seed: 42),
+///   sphere((-2.2, 0., 0.), 1.0, texture: "RandomEquators"),
+/// )
+/// ```
+/// -> shape
+#let sphere(
+  /// The center of the sphere, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  center,
+  /// The radius of the sphere.
+  /// -> float
+  radius,
+  /// The texture pattern applied to the sphere's surface. Can be one of "LatLng", "RandomEquators", or "RandomCircles".
+  /// -> str
+  texture: "LatLng",
+  /// The seed for random texture generation.
+  /// -> int
+  seed: 0,
+) = {
   assert(
     type(center) == array
       and center.len() == 3
@@ -55,8 +156,8 @@
     message: "sphere(...) expects `center` be an array of 3 floats, `radius` be a float, `texture` be a string, and `seed` be an integer",
   )
   assert(
-    texture in ("LatLng", "RandomEquators", "RandomDots", "RandomCircles"),
-    message: "sphere(...) texture must be one of LatLng, RandomEquators, RandomDots, RandomCircles",
+    texture in ("LatLng", "RandomEquators", "RandomCircles"),
+    message: "sphere(...) texture must be one of LatLng, RandomEquators, RandomCircles",
   )
   return (
     Sphere: (
@@ -68,7 +169,50 @@
   )
 }
 
-#let func(func, min, max, direction: "Below", texture: "Grid", n: 100) = {
+/// The function-defined shape.
+///
+/// _Note that the function is sampled over a grid defined by `min`, `max`, and `n` due to typst wasm plugin limitations. Then the sampled values are intepolated with bilinear interpolation for rendering._
+///
+/// ```example
+/// #render(
+///   eye: (4., 3., 3.),
+///   center: (0., 0., 1.5),
+///   height: 720.,
+///   func((x, y) => 0.3 * (x * x + y * y), (-2., -2., -2.), (2., 2., 4.)),
+/// )
+/// ```
+///
+/// -> shape
+#let func(
+  /// The function or pre-sampled 2d-array defining the shape's surface.
+  /// -> function | array
+  func,
+  /// The minimum corner of the bounding box, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  min,
+  /// The maximum corner of the bounding box, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  max,
+  /// The direction of the shape's surface. Can be either "Below" or "Above".
+  /// -> str
+  direction: "Below",
+  /// The texture pattern of the shape's surface. Can be one of "Grid", "Spiral", or "Swirl".
+  ///
+  /// ```example
+  /// #let (min, max) = ((-1., -1., -1.), (1., 1., 1.))
+  /// #render(
+  ///   eye: (2.5, 0.4, 1.5),
+  ///   func((x, y) => x * y, min, max, texture: "Spiral"),
+  ///   func((x, y) => 0.0, min, max),
+  /// )
+  /// ```
+  ///
+  /// -> str
+  texture: "Grid",
+  /// The number of samples along each axis if `func` is a function.
+  /// -> int
+  n: 100,
+) = {
   assert(
     (type(func) == function or type(func) == array)
       and type(min) == array
@@ -107,7 +251,30 @@
   )
 }
 
-#let triangle(v1, v2, v3) = {
+/// The triangle shape.
+///
+/// ```example
+/// #render(
+///   eye: (2., 2., 2.),
+///   center: (0., 0., 0.),
+///   height: 512.,
+///   triangle((0., 1., 0.), (1., 0., 0.), (0., 0., 0.)),
+///   triangle((0., 1., 0.), (1., 0., 0.), (1., 1., 0.)),
+/// )
+/// ```
+///
+/// -> shape
+#let triangle(
+  /// The first vertex of the triangle, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v1,
+  /// The second vertex of the triangle, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v2,
+  /// The third vertex of the triangle, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
+  v3,
+) = {
   assert(
     (v1, v2, v3).all(v => type(v) == array and v.len() == 3 and v.all(i => type(i) == float)),
     message: "triangle(v1, v2, v3) expects three arrays of 3 floats",
@@ -121,7 +288,34 @@
   )
 }
 
-#let mesh(triangles) = {
+/// The mesh shape composed of triangles.
+///
+/// ```example
+/// #let (n, r, h) = (8, 1.5, 2.0)
+/// #let trs = (
+///   (range(0, 360, step: int(360 / n))
+///   .map(x => x * 1deg) + (0,))
+///   .windows(2).map(x => {
+///   let (a, b) = x
+///   triangle(
+///   (calc.cos(a) * r, calc.sin(a) * r, 0.),
+///   (0., 0., h),
+///   (calc.cos(b) * r, calc.sin(b) * r, 0.),
+///   )
+/// }))
+/// #render(
+///   step: 0.01,
+///   fovy: 30.,
+///   rotate(mesh(trs), (0., 1., 0.), 1.2),
+/// )
+/// ```
+///
+/// -> shape
+#let mesh(
+  /// An array of triangle shapes.
+  /// -> array
+  triangles,
+) = {
   assert(
     type(triangles) == array
       and triangles.all(t => (
@@ -134,7 +328,32 @@
   )
 }
 
-#let outline(shape) = {
+/// The outline wrapper for shapes. Can be used to create outline shapes like outline cone, outline cylinder, outline sphere.
+///
+/// ```example
+/// #let (co, cy, sp) = (
+///   cone(.5, (0., 0., 0.), (0., 0., 1.)),
+///   cylinder(.5, (0., 0., 0.), (0., 0., 1.)),
+///   sphere((0., 0., 0.5), .5),
+/// )
+/// #render(
+///   center: (1., 2., 0.),
+///   step: 0.01,
+///   translate(co, (0., 0., 0.)),
+///   translate(cy, (0., 2., 0.)),
+///   translate(sp, (0., 4., 0.)),
+///   translate(outline(co), (2., 0., 0.)),
+///   translate(outline(cy), (2., 2., 0.)),
+///   translate(outline(sp), (2., 4., 0.)),
+/// )
+/// ```
+///
+/// -> shape
+#let outline(
+  /// The shape to be outlined. Must be a cone, cylinder, or sphere.
+  /// -> shape
+  shape,
+) = {
   assert(
     type(shape) == dictionary and ("Cone", "Cylinder", "Sphere").any(s => s in shape),
     message: "outline(shape) expects cone, cylinder, or sphere shape",
@@ -144,7 +363,33 @@
   )
 }
 
-#let difference(..shapes) = {
+/// The difference operation for shapes.
+/// Can be used to create complex shapes by subtracting multiple shapes from a base shape.
+///
+/// ```example
+/// #render(
+///   eye: (3., 2., 2.),
+///   center: (0., 0.1, 0.),
+///   step: 0.05,
+///   fovy: 30.,
+///   difference(
+///     cube((0., 0., 0.), (1., 1., 1.), texture: "Stripes", stripes: 15),
+///     sphere((1., 1., 0.5), 0.5),
+///     sphere((0., 1., 0.5), 0.5),
+///     sphere((0., 0., 0.5), 0.5),
+///     sphere((1., 0., 0.5), 0.5),
+///   ),
+/// )
+/// ```
+///
+/// -> shape
+#let difference(
+  /// The shapes to be subtracted.
+  /// The first shape is the base shape, and the subsequent shapes are subtracted from it.
+  /// At least two shapes are required.
+  /// -> shape
+  ..shapes,
+) = {
   let shapes = shapes.pos()
   assert(
     shapes.len() >= 2 and shapes.all(s => type(s) == dictionary),
@@ -155,7 +400,29 @@
   )
 }
 
-#let intersection(..shapes) = {
+/// The intersection operation for shapes.
+/// Can be used to create complex shapes by intersecting multiple shapes.
+///
+/// ```example
+/// #render(
+///   eye: (3., 2., 2.),
+///   center: (0., 0., 0.5),
+///   step: 0.05,
+///   fovy: 20.,
+///   intersection(
+///     sphere((0., 0., 0.5), 0.6),
+///     cube((-0.5, -0.5, 0.), (.5, 0.5, 1.0), texture: "Stripes", stripes: 32),
+///   ),
+/// )
+/// ```
+///
+/// -> shape
+#let intersection(
+  /// The shapes to be intersected.
+  /// At least two shapes are required.
+  /// -> shape
+  ..shapes,
+) = {
   let shapes = shapes.pos()
   assert(
     shapes.len() >= 2 and shapes.all(s => type(s) == dictionary),
@@ -166,7 +433,17 @@
   )
 }
 
-#let translate(shape, v) = {
+/// Translates a shape by a given vector.
+///
+/// -> shape
+#let translate(
+  /// The shape to be translated.
+  /// -> shape
+  shape,
+  /// The translation vector, given as an array of three floats representing the x, y, and z components.
+  /// -> array
+  v,
+) = {
   assert(
     type(shape) == dictionary and type(v) == array and v.len() == 3 and v.all(i => type(i) == float),
     message: "translate(shape, v) expects a shape and an array of 3 floats",
@@ -179,7 +456,20 @@
   )
 }
 
-#let rotate(shape, v, a) = {
+/// Rotates a shape around a given axis by a specified angle.
+///
+/// -> shape
+#let rotate(
+  /// The shape to be rotated.
+  /// -> shape
+  shape,
+  /// The rotation axis, given as an array of three floats representing the x, y, and z components.
+  /// -> array
+  v,
+  /// The rotation angle in radians.
+  /// -> float
+  a,
+) = {
   assert(
     type(shape) == dictionary
       and type(v) == array
@@ -201,7 +491,17 @@
   )
 }
 
-#let scale(shape, v) = {
+/// Scales a shape by given factors along each axis.
+///
+/// -> shape
+#let scale(
+  /// The shape to be scaled.
+  /// -> shape
+  shape,
+  /// The scaling factors along the x, y, and z axes, given as an array of three floats.
+  /// -> array
+  v,
+) = {
   assert(
     type(shape) == dictionary and type(v) == array and v.len() == 3 and v.all(i => type(i) == float),
     message: "scale(shape, v) expects a shape and an array of 3 floats",
@@ -214,16 +514,57 @@
   )
 }
 
+/// Renders a 3D scene defined by the given shapes from a specified camera viewpoint.
+///
+/// ```example
+/// #render(
+///  eye: (2., 7., 5.),
+///  center: (1.5, 2., 0.),
+///  step: 0.01,
+///  cube((0., 0., 0.), (1., 1., 1.)),
+///  cube((1.5, 0., 0.), (2.5, 1., 1.), texture: "Stripes", stripes: 8),
+///  sphere((0.5, 2., .5), 0.5),
+///  sphere((2., 2., .5), 0.5, texture: "RandomCircles"),
+///  sphere((0.5, 3.5, .5), 0.5, texture: "RandomEquators"),
+///  outline(sphere((2., 3.5, .5), 0.5)),
+///  cone(0.5, (-1., 0.5, 0.), (-1., 0.5, 1.)),
+///  translate(outline(cone(0.5, (0., 0., 0.), (0., 0., 1.))), (-1., 2.0, 0.)),
+///  cylinder(0.5, (3.5, 0.5, 0.), (3.5, 0.5, 1.)),
+///  translate(outline(cylinder(0.5, (0., 0., 0.), (0., 0., 1.))), (3.5, 2.0, 0.)),
+/// )
+/// ```
+///
+/// -> content
 #let render(
+  /// The position of the camera in 3D space, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
   eye: (5.0, 5.0, 5.0),
+  /// The point in 3D space that the camera is looking at, given as an array of three floats representing the x, y, and z coordinates.
+  /// -> array
   center: (0.0, 0.0, 0.0),
+  /// The up direction for the camera, given as an array of three floats.
+  /// -> array
   up: (0.0, 0.0, 1.0),
+  /// The width of the output image.
+  /// -> float
   width: 1024.0,
+  /// The height of the output image.
+  /// -> float
   height: 1024.0,
+  /// Field of view of the camera.
+  /// -> float
   fovy: 50.0,
+  /// The near clipping plane distance.
+  /// -> float
   near: 0.1,
+  /// The far clipping plane distance.
+  /// -> float
   far: 100.0,
+  /// The step size for the algorithm.
+  /// -> float
   step: 0.1,
+  /// The 3D shapes to be rendered in the scene.
+  /// -> shape
   ..shapes,
 ) = {
   image(ln.render(
