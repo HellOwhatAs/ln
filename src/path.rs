@@ -11,7 +11,7 @@
 //! # Example
 //!
 //! ```no_run
-//! use ln::{Scene, Cube, Vector};
+//! use larnt::{Scene, Cube, Vector};
 //!
 //! let mut scene = Scene::new();
 //! scene.add(Cube::new(Vector::new(-1.0, -1.0, -1.0), Vector::new(1.0, 1.0, 1.0)));
@@ -46,7 +46,7 @@ pub type Path = Vec<Vector>;
 /// # Example
 ///
 /// ```
-/// use ln::{Paths, Vector};
+/// use larnt::{Paths, Vector};
 ///
 /// // Create paths manually
 /// let paths = Paths::from_vec(vec![
@@ -166,7 +166,7 @@ impl Paths {
     /// # Example
     ///
     /// ```no_run
-    /// use ln::{Scene, Cube, Vector};
+    /// use larnt::{Scene, Cube, Vector};
     ///
     /// let mut scene = Scene::new();
     /// scene.add(Cube::new(Vector::new(-1.0, -1.0, -1.0), Vector::new(1.0, 1.0, 1.0)));
@@ -192,7 +192,7 @@ impl Paths {
     /// # Example
     ///
     /// ```no_run
-    /// use ln::{Scene, Sphere, Vector};
+    /// use larnt::{Scene, Sphere, Vector};
     ///
     /// let mut scene = Scene::new();
     /// scene.add(Sphere::new(Vector::new(0.0, 0.0, 0.0), 1.0));

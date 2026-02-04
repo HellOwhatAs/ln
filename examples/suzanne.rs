@@ -1,4 +1,4 @@
-use ln::{load_obj, Matrix, Scene, TransformedShape, Vector};
+use larnt::{load_obj, Matrix, Scene, TransformedShape, Vector};
 use std::sync::Arc;
 
 fn main() {

@@ -7,7 +7,7 @@
 //! # Example
 //!
 //! ```
-//! use ln::{Scene, Sphere, SphereTexture, Vector};
+//! use larnt::{Scene, Sphere, SphereTexture, Vector};
 //!
 //! // Create a unit sphere at the origin with the default lat/lng texture
 //! let sphere = Sphere::new(Vector::new(0.0, 0.0, 0.0), 1.0);
@@ -54,7 +54,7 @@ pub enum SphereTexture {
 /// # Example
 ///
 /// ```
-/// use ln::{Sphere, SphereTexture, Vector};
+/// use larnt::{Sphere, SphereTexture, Vector};
 ///
 /// // Sphere at origin with radius 2 (default lat/lng texture)
 /// let sphere = Sphere::new(Vector::new(0.0, 0.0, 0.0), 2.0);
@@ -299,7 +299,7 @@ pub fn lat_lng_to_xyz(lat: f64, lng: f64, radius: f64) -> Vector {
 /// # Example
 ///
 /// ```
-/// use ln::{OutlineSphere, Scene, Vector};
+/// use larnt::{OutlineSphere, Scene, Vector};
 ///
 /// let eye = Vector::new(4.0, 3.0, 2.0);
 /// let up = Vector::new(0.0, 0.0, 1.0);

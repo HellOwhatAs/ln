@@ -8,7 +8,7 @@
 //! # Example
 //!
 //! ```no_run
-//! use ln::{new_intersection, new_difference, Sphere, Cube, Vector, Scene, Shape};
+//! use larnt::{new_intersection, new_difference, Sphere, Cube, Vector, Scene, Shape};
 //! use std::sync::Arc;
 //!
 //! // Create a sphere-cube intersection minus a smaller sphere
@@ -88,7 +88,7 @@ pub fn new_boolean_shape(
 /// # Example
 ///
 /// ```
-/// use ln::{new_intersection, Sphere, Cube, Vector, Shape};
+/// use larnt::{new_intersection, Sphere, Cube, Vector, Shape};
 /// use std::sync::Arc;
 ///
 /// let sphere: Arc<dyn Shape + Send + Sync> = Arc::new(Sphere::new(Vector::default(), 1.0));
@@ -110,7 +110,7 @@ pub fn new_intersection(shapes: Vec<Arc<dyn Shape + Send + Sync>>) -> Arc<dyn Sh
 /// # Example
 ///
 /// ```
-/// use ln::{new_difference, Sphere, Cube, Vector, Shape};
+/// use larnt::{new_difference, Sphere, Cube, Vector, Shape};
 /// use std::sync::Arc;
 ///
 /// let cube: Arc<dyn Shape + Send + Sync> = Arc::new(Cube::new(

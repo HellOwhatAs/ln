@@ -1,4 +1,4 @@
-use ln::{OutlineCone, Scene, Vector};
+use larnt::{OutlineCone, Scene, Vector};
 
 fn main() {
     // create a scene and add a single cube

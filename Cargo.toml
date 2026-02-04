@@ -1,5 +1,5 @@
 [package]
-name = "ln"
+name = "larnt"
 version = "0.1.0"
 edition = "2021"
 description = "The 3D Line Art Engine - A vector-based 3D renderer written in Rust"

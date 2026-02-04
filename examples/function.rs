@@ -1,4 +1,4 @@
-use ln::{Box as BBox, Direction, Function, FunctionTexture, Scene, Sphere, Vector};
+use larnt::{Box as BBox, Direction, Function, FunctionTexture, Scene, Sphere, Vector};
 
 fn main() {
     let mut scene = Scene::new();
@@ -13,7 +13,7 @@ fn main() {
 
     scene.add(
         Sphere::new(Vector::new(2.0, 0.25, 0.5), 0.6)
-            .with_texture(ln::SphereTexture::RandomCircles(42)),
+            .with_texture(larnt::SphereTexture::RandomCircles(42)),
     );
 
     let eye = Vector::new(3.75, 1.75, 5.0);

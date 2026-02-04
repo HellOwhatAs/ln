@@ -1,21 +1,12 @@
-# `ln` The 3D Line Art Engine
+# `larnt` The 3D Line Art Engine
 
-`ln` is a vector-based 3D renderer written in Rust. It is used to produce 2D
-vector graphics (think SVGs) depicting 3D scenes.
+> This project is a Rust reimplementation of the original [Go implementation](https://github.com/fogleman/ln) by [Michael Fogleman](https://github.com/fogleman).
 
-*The output of an OpenGL pipeline is a rastered image. The output of `ln` is
-a set of 2D vector paths.*
+`larnt` is a vector-based 3D renderer written in Rust. It is used to produce 2D vector graphics (think SVGs) depicting 3D scenes.
+
+*The output of an OpenGL pipeline is a rastered image. The output of `larnt` is a set of 2D vector paths.*
 
 ![Examples](http://i.imgur.com/HY2Fg2t.png)
-
-## Motivation
-
-I created this so I could plot 3D drawings with my
-[Makeblock XY Plotter](http://www.makeblock.cc/xy-plotter-robot-kit/).
-
-Here's one of my drawings from the plotter...
-
-![Example](http://i.imgur.com/NbgpUhQ.jpg)
 
 ## Installation
 
@@ -23,15 +14,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ln = { git = "https://github.com/fogleman/ln" }
-```
-
-Or clone and build locally:
-
-```bash
-git clone https://github.com/fogleman/ln
-cd ln
-cargo build --release
+larnt = "0.1.0"
 ```
 
 ## Features
@@ -53,7 +36,7 @@ cargo build --release
 
 ## How it Works
 
-To understand how `ln` works, it's useful to start with the `Shape` trait:
+To understand how `larnt` works, it's useful to start with the `Shape` trait:
 
 ```rust
 pub trait Shape {
@@ -92,7 +75,7 @@ operations.
 ### The Code
 
 ```rust
-use ln::{Cube, Scene, Vector};
+use larnt::{Cube, Scene, Vector};
 
 fn main() {
     // create a scene and add a single cube
@@ -134,7 +117,7 @@ shown in the skyscrapers example above. We can implement the `Shape` trait
 for a custom type.
 
 ```rust
-use ln::{Cube, Shape, Paths, Vector, Box, Hit, Ray};
+use larnt::{Cube, Shape, Paths, Vector, Box, Hit, Ray};
 
 struct StripedCube {
     cube: Cube,
@@ -180,7 +163,7 @@ Now `StripedCube` instances can be added to the scene.
 You can easily construct complex solids using Intersection, Difference.
 
 ```rust
-use ln::{new_difference, new_intersection, radians, Cylinder, Matrix, Sphere, TransformedShape, Vector};
+use larnt::{new_difference, new_intersection, radians, Cylinder, Matrix, Sphere, TransformedShape, Vector};
 use std::sync::Arc;
 
 let shape = new_difference(vec![

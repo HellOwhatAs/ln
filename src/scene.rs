@@ -6,7 +6,7 @@
 //! # Example
 //!
 //! ```no_run
-//! use ln::{Cube, Scene, Vector};
+//! use larnt::{Cube, Scene, Vector};
 //!
 //! let mut scene = Scene::new();
 //! scene.add(Cube::new(
@@ -41,7 +41,7 @@ use std::sync::Arc;
 /// # Example
 ///
 /// ```no_run
-/// use ln::{Scene, Sphere, Vector};
+/// use larnt::{Scene, Sphere, Vector};
 ///
 /// let mut scene = Scene::new();
 /// scene.add(Sphere::new(Vector::new(0.0, 0.0, 0.0), 1.0));
@@ -99,7 +99,7 @@ impl Scene {
     /// # Example
     ///
     /// ```
-    /// use ln::{Scene, Cube, Vector};
+    /// use larnt::{Scene, Cube, Vector};
     ///
     /// let mut scene = Scene::new();
     /// scene.add(Cube::new(Vector::new(-1.0, -1.0, -1.0), Vector::new(1.0, 1.0, 1.0)));
@@ -117,7 +117,7 @@ impl Scene {
     /// # Example
     ///
     /// ```
-    /// use ln::{Scene, Sphere, Shape, Vector};
+    /// use larnt::{Scene, Sphere, Shape, Vector};
     /// use std::sync::Arc;
     ///
     /// let sphere: Arc<dyn Shape + Send + Sync> = Arc::new(Sphere::new(Vector::default(), 1.0));
@@ -185,7 +185,7 @@ impl Scene {
     /// # Example
     ///
     /// ```no_run
-    /// use ln::{Scene, Cube, Vector};
+    /// use larnt::{Scene, Cube, Vector};
     ///
     /// let mut scene = Scene::new();
     /// scene.add(Cube::new(Vector::new(-1.0, -1.0, -1.0), Vector::new(1.0, 1.0, 1.0)));

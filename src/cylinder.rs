@@ -7,7 +7,7 @@
 //! # Example
 //!
 //! ```
-//! use ln::{Cylinder, Scene, Vector};
+//! use larnt::{Cylinder, Scene, Vector};
 //!
 //! // Create a cylinder with radius 1.0, from z=0 to z=2
 //! let cylinder = Cylinder::new(1.0, 0.0, 2.0);
@@ -34,7 +34,7 @@ use std::sync::Arc;
 /// # Example
 ///
 /// ```
-/// use ln::{Cylinder, Vector};
+/// use larnt::{Cylinder, Vector};
 ///
 /// // Cylinder with radius 0.5, from z=-1 to z=1
 /// let cylinder = Cylinder::new(0.5, -1.0, 1.0);

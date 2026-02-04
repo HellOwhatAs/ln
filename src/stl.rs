@@ -6,7 +6,7 @@
 //! # Example
 //!
 //! ```no_run
-//! use ln::{load_binary_stl, load_stl, save_binary_stl, Scene, Vector};
+//! use larnt::{load_binary_stl, load_stl, save_binary_stl, Scene, Vector};
 //!
 //! // Load a binary STL file
 //! let mesh = load_binary_stl("model.stl").expect("Failed to load STL");
@@ -33,7 +33,7 @@ use std::io::{BufRead, BufReader, BufWriter, Read, Write};
 /// # Example
 ///
 /// ```no_run
-/// use ln::load_binary_stl;
+/// use larnt::load_binary_stl;
 ///
 /// let mesh = load_binary_stl("model.stl").expect("Failed to load STL");
 /// ```
@@ -85,7 +85,7 @@ pub fn load_binary_stl(path: &str) -> std::io::Result<Mesh> {
 /// # Example
 ///
 /// ```no_run
-/// use ln::{save_binary_stl, load_obj};
+/// use larnt::{save_binary_stl, load_obj};
 ///
 /// let mesh = load_obj("model.obj").expect("Failed to load OBJ");
 /// save_binary_stl("output.stl", &mesh).expect("Failed to save STL");
@@ -140,7 +140,7 @@ pub fn save_binary_stl(path: &str, mesh: &Mesh) -> std::io::Result<()> {
 /// # Example
 ///
 /// ```no_run
-/// use ln::load_stl;
+/// use larnt::load_stl;
 ///
 /// let mesh = load_stl("model.stl").expect("Failed to load STL");
 /// ```

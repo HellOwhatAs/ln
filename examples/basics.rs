@@ -1,4 +1,4 @@
-use ln::{
+use larnt::{
     new_transformed_cone, new_transformed_cylinder, new_transformed_outline_cone,
     new_transformed_outline_cylinder, Cube, CubeTexture, OutlineSphere, Scene, Sphere,
     SphereTexture, Vector,

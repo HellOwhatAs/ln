@@ -1,4 +1,4 @@
-use ln::{Cube, Scene, Vector};
+use larnt::{Cube, Scene, Vector};
 
 fn main() {
     // create a scene and add a single cube

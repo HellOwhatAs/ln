@@ -1,4 +1,4 @@
-use ln::{OutlineSphere, Scene, Vector};
+use larnt::{OutlineSphere, Scene, Vector};
 use rand::rngs::SmallRng;
 use rand::Rng;
 use rand::SeedableRng;

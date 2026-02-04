@@ -6,7 +6,7 @@
 //! # Example
 //!
 //! ```
-//! use ln::{Matrix, Vector, radians};
+//! use larnt::{Matrix, Vector, radians};
 //!
 //! // Create a rotation matrix (45 degrees around Z axis)
 //! let rotation = Matrix::rotate(Vector::new(0.0, 0.0, 1.0), radians(45.0));
@@ -39,7 +39,7 @@ use crate::vector::Vector;
 /// # Example
 ///
 /// ```
-/// use ln::{Matrix, Vector, radians};
+/// use larnt::{Matrix, Vector, radians};
 ///
 /// // Transform a point
 /// let transform = Matrix::translate(Vector::new(1.0, 0.0, 0.0));
@@ -95,7 +95,7 @@ impl Matrix {
     /// # Example
     ///
     /// ```
-    /// use ln::{Matrix, Vector};
+    /// use larnt::{Matrix, Vector};
     ///
     /// let t = Matrix::translate(Vector::new(1.0, 2.0, 3.0));
     /// let p = t.mul_position(Vector::new(0.0, 0.0, 0.0));
@@ -151,7 +151,7 @@ impl Matrix {
     /// # Example
     ///
     /// ```
-    /// use ln::{Matrix, Vector, radians};
+    /// use larnt::{Matrix, Vector, radians};
     ///
     /// // Rotate 90 degrees around Z axis
     /// let r = Matrix::rotate(Vector::new(0.0, 0.0, 1.0), radians(90.0));

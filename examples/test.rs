@@ -1,4 +1,4 @@
-use ln::{Scene, Sphere, SphereTexture::RandomCircles, Vector};
+use larnt::{Scene, Sphere, SphereTexture::RandomCircles, Vector};
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 fn main() {

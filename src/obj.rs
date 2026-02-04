@@ -5,7 +5,7 @@
 //! # Example
 //!
 //! ```no_run
-//! use ln::{load_obj, Scene, Vector};
+//! use larnt::{load_obj, Scene, Vector};
 //!
 //! let mesh = load_obj("model.obj").expect("Failed to load OBJ");
 //! let mut scene = Scene::new();
@@ -45,7 +45,7 @@ fn parse_index(value: &str, length: usize) -> usize {
 /// # Example
 ///
 /// ```no_run
-/// use ln::load_obj;
+/// use larnt::load_obj;
 ///
 /// let mesh = load_obj("model.obj").expect("Failed to load OBJ");
 /// ```

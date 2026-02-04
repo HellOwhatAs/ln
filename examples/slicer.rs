@@ -1,4 +1,4 @@
-use ln::{load_obj, Box as BBox, Matrix, Plane, Vector};
+use larnt::{load_obj, Box as BBox, Matrix, Plane, Vector};
 
 const SLICES: usize = 32;
 const SIZE: f64 = 1024.0;

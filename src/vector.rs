@@ -1,12 +1,12 @@
 //! 3D vector mathematics.
 //!
 //! This module provides the [`Vector`] struct for 3D vector operations.
-//! Vectors are used throughout `ln` for positions, directions, and colors.
+//! Vectors are used throughout `larnt` for positions, directions, and colors.
 //!
 //! # Example
 //!
 //! ```
-//! use ln::Vector;
+//! use larnt::Vector;
 //!
 //! let a = Vector::new(1.0, 2.0, 3.0);
 //! let b = Vector::new(4.0, 5.0, 6.0);
@@ -27,7 +27,7 @@ use std::ops::{Add, Div, Mul, Sub};
 
 /// A 3D vector with x, y, and z components.
 ///
-/// `Vector` is the fundamental type for 3D mathematics in `ln`. It supports
+/// `Vector` is the fundamental type for 3D mathematics in `larnt`. It supports
 /// standard vector operations like addition, subtraction, dot product, cross
 /// product, and normalization.
 ///
@@ -37,7 +37,7 @@ use std::ops::{Add, Div, Mul, Sub};
 /// and vector-scalar operations.
 ///
 /// ```
-/// use ln::Vector;
+/// use larnt::Vector;
 ///
 /// let a = Vector::new(1.0, 2.0, 3.0);
 /// let b = Vector::new(2.0, 3.0, 4.0);

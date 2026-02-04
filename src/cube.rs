@@ -6,7 +6,7 @@
 //! # Example
 //!
 //! ```
-//! use ln::{Cube, Scene, Vector};
+//! use larnt::{Cube, Scene, Vector};
 //!
 //! // Create a 2x2x2 cube centered at the origin
 //! let cube = Cube::new(
@@ -42,7 +42,7 @@ pub enum CubeTexture {
 /// # Example
 ///
 /// ```
-/// use ln::{Cube, Vector};
+/// use larnt::{Cube, Vector};
 ///
 /// // Unit cube from (0,0,0) to (1,1,1)
 /// let cube = Cube::new(Vector::new(0.0, 0.0, 0.0), Vector::new(1.0, 1.0, 1.0));

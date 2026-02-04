@@ -1,4 +1,4 @@
-use ln::{Cube, Scene, Vector};
+use larnt::{Cube, Scene, Vector};
 use rand::{rngs::SmallRng, Rng, SeedableRng};
 
 fn main() {

@@ -14,8 +14,7 @@
   #text(size: 24pt)[larnt]\
   _3D line art engine._
 
-  #underline[https://github.com/HellOwhatAs/larnt/] \
-  #text(fill: gray)[Rust: #underline[https://github.com/HellOwhatAs/ln/]]
+  #underline[https://github.com/HellOwhatAs/larnt/]
 ]
 
 #{

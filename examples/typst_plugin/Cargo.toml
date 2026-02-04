@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 ciborium = "0.2.1"
 serde = "1.0"
 wasm-minimal-protocol = { git = "https://github.com/astrale-sharp/wasm-minimal-protocol", rev = "c51acd43095fe9da8fa943e064618e486fd2b58d" }
-ln = { path = "../.." }
+larnt = { path = "../.." }
 rand = { version = "0.8", default-features = false, features = ["small_rng"] }
 
 [profile.release]

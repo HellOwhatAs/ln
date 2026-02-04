@@ -9,7 +9,7 @@
 //! To create a custom shape, implement the [`Shape`] trait:
 //!
 //! ```ignore
-//! use ln::{Shape, Paths, Vector, Box, Hit, Ray};
+//! use larnt::{Shape, Paths, Vector, Box, Hit, Ray};
 //!
 //! struct MySphere {
 //!     center: Vector,
@@ -134,7 +134,7 @@ impl Shape for EmptyShape {
 /// # Example
 ///
 /// ```
-/// use ln::{Cube, Matrix, TransformedShape, Vector, radians};
+/// use larnt::{Cube, Matrix, TransformedShape, Vector, radians};
 /// use std::sync::Arc;
 ///
 /// let cube = Arc::new(Cube::new(

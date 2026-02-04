@@ -8,7 +8,7 @@
 /// # Example
 ///
 /// ```
-/// use ln::radians;
+/// use larnt::radians;
 ///
 /// let rad = radians(90.0);
 /// assert!((rad - std::f64::consts::PI / 2.0).abs() < 1e-10);
@@ -22,7 +22,7 @@ pub fn radians(degrees: f64) -> f64 {
 /// # Example
 ///
 /// ```
-/// use ln::degrees;
+/// use larnt::degrees;
 ///
 /// let deg = degrees(std::f64::consts::PI);
 /// assert!((deg - 180.0).abs() < 1e-10);
